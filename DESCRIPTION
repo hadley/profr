@@ -1,0 +1,13 @@
+Package: prof
+Type: Package
+Title: An alternative display for profiling information
+Version: 0.1
+Date: 2008-04-04
+Author: Hadley Wickham <h.wickham@gmail.com>
+Maintainer: Hadley Wickham <h.wickham@gmail.com>
+Description: 
+URL: http://had.co.nz/profr
+Depends: R (>= 2.6.2)
+Suggests: RUnit
+License: MIT
+LazyData: true
