@@ -29,6 +29,6 @@ summary.stopwatch <- function(x, ...) {
 plot.stopwatch <- function(x, ..., minlabel = 10) {
 	plot(1,1, xlim=range(x$start, x$end), ylim=range(x$level)+c(-0.5, 0.5), type="n", ..., xlab="time", ylab="level")
 	rect(x$start, x$level - 0.5, x$end, x$level +0.5, ...)
-	labels <- subset(x, end - start > minlabel)
+	labels <- subset(x, end - start >= minlabel)
 	text(labels$start, labels$level, labels$f, pos=4, srt=30, ...)
 }
