@@ -1,4 +1,4 @@
-# Stop watch
+# profr
 # Profile the performance of function call.
 #
 # This is basically a wrapper around \link{RProf} that provides
@@ -7,17 +7,17 @@
 # start time, end time, whether or not the function is a leaf 
 # (doesn't call any other functions) and source of function.
 #
-# @seealso \code{\link{print.call.tree}}, \code{\link{plot.call.tree}}
+# @seealso \code{\link{summary.stopwatch}}, \code{\link{plot.stopwatch}}
 # @arguments function to profile
-# @arguments number of times to run
 # @arguments interval between samples (in seconds)
+# @arguments should output be discarded?
 # @value data.frame
 # @keyword debugging
-#X s <- stopwatch(example(glm))
+#X s <- prof(example(glm))
 #X summary(s)
 #X head(s)
 #X plot(s)
-stopwatch <- function(f, interval = 0.02) {
+profr <- function(f, interval = 0.02, quiet = TRUE) {
 	#assert(is.positive.integer(reps), "Repetitions (reps) must be a positive integer");
 	#assert(is.function(f), "f must be a function");
 	
@@ -25,22 +25,16 @@ stopwatch <- function(f, interval = 0.02) {
 	on.exit(unlink(tmp))
 	on.exit(unlink("Rprof.out"), add=T)
 	
-	sink("/dev/null")
-	on.exit(sink(), add=TRUE)
+	if (quiet) {
+  	sink("/dev/null")
+  	on.exit(sink(), add=TRUE)
+	}
+	
 	Rprof(tmp, append=TRUE)
 	try(force(f))
 	Rprof()
-
-	lines <- scan(tmp, what="character", sep="\n")
-	clean.lines <- lines[-grep("sample\\.interval=",lines)]
-	calls <- sapply(clean.lines, strsplit, split=" ", USE.NAMES = FALSE)
-	calls <- sapply(calls, rev)
-	calls <- sapply(calls, function(x) gsub("\"","", x))
 	
-	class(calls) <- "call.tree"
-	attr(calls, "interval") <- interval
-	
-	.simplify_all(.compact(calls))
+	parse_rprof(tmp)
 } 
 
 

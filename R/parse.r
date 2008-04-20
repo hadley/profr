@@ -1,5 +1,14 @@
-# New data structure experimentation
-# =====================================
+parse_rprof <- function(path) {
+  lines <- scan(path, what="character", sep="\n")
+	clean.lines <- lines[-grep("sample\\.interval=",lines)]
+	calls <- sapply(clean.lines, strsplit, split=" ", USE.NAMES = FALSE)
+	calls <- sapply(calls, rev)
+	calls <- sapply(calls, function(x) gsub("\"","", x))
+	
+	attr(calls, "interval") <- interval
+	
+	.simplify_all(.compact(calls))
+}
 
 .compact <- function(s, order=TRUE,reverse=FALSE) {
 	.compact.row <- function(s1) data.frame(f=s1$call, level=1:s1$depth, start=s1$start, leaf=1:s1$depth == s1$depth)
