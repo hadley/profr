@@ -1,4 +1,4 @@
-parse_rprof <- function(path) {
+parse_rprof <- function(path, interval=0.02) {
   lines <- scan(path, what="character", sep="\n")
 	clean.lines <- lines[-grep("sample\\.interval=",lines)]
 	calls <- sapply(clean.lines, strsplit, split=" ", USE.NAMES = FALSE)
@@ -26,7 +26,7 @@ parse_rprof <- function(path) {
 	)
 }
 
-# for each level, want to consecutive of the same function to one
+# for each level, want to collapse consecutive of the same function to one
 # provided all previous calls are the same too
 .simplify <- function(df) {
 	change <- c(TRUE, (diff(df$start) == 1) & (df$f[-1] != df$f[-nrow(df)]))
@@ -66,5 +66,11 @@ parse_rprof <- function(path) {
 
 .function_sources <- function(df) {
 	fs <- sapply(levels(df$f), function(x) do.call(getAnywhere, list(x))$where[1])
-	fs[as.character(df$f)]
+	
+	packaged <- grep("package", fs)
+	names <- sapply(strsplit(fs[packaged], ":"), "[", 2)
+  
+	fs[-packaged] <- NA
+	fs[packaged] <- names
+	unname(fs[as.character(df$f)])
 }

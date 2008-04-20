@@ -34,7 +34,7 @@ profr <- function(f, interval = 0.02, quiet = TRUE) {
 	try(force(f))
 	Rprof()
 	
-	parse_rprof(tmp)
+	parse_rprof(tmp, interval)
 } 
 
 
