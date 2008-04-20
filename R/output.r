@@ -26,9 +26,20 @@ summary.stopwatch <- function(x, ...) {
 # @keyword hplot
 #X plot(glm_ex)
 #X plot(subset(glm_ex, level < 5))
-plot.stopwatch <- function(x, ..., minlabel = 10) {
+plot.stopwatch <- function(x, ..., minlabel = 0.1, angle = 0) {
 	plot(1,1, xlim=range(x$start, x$end), ylim=range(x$level)+c(-0.5, 0.5), type="n", ..., xlab="time", ylab="level")
 	rect(x$start, x$level - 0.5, x$end, x$level +0.5, ...)
-	labels <- subset(x, end - start >= minlabel)
-	text(labels$start, labels$level, labels$f, pos=4, srt=30, ...)
+	labels <- subset(x, time > max(time) * minlabel)
+	if (nrow(labels) > 0)
+	  text(labels$start, labels$level, labels$f, pos=4, angle=30, ...)
+}
+
+ggplot.stopwatch <- function(data, ..., minlabel = 0.1, angle=0) {
+  if (!require("ggplot2", quiet=TRUE)) stop("Please install ggplot2 to use this plotting method")
+  
+  ggplot(as.data.frame(data), aes(x = factor(level))) + 
+  geom_bar(aes(min = start, y = end, fill = source), position="identity", stat = "identity", width = 1) +
+  geom_text(aes(label=f, y=start), hjust=0, data=subset(data, time > max(time) * minlabel), size=5, angle=angle) +
+  scale_y_continuous("time") + scale_x_discrete("level") + 
+  coord_flip()
 }
