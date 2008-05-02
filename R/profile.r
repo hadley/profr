@@ -34,7 +34,8 @@ profr <- function(expr, interval = 0.02, quiet = TRUE) {
   on.exit(unlink("Rprof.out"), add=T)
   
   if (quiet) {
-    sink("/dev/null")
+    tc <- textConnection(NULL, "w")
+    sink(tc)
     on.exit(sink(), add=TRUE)
   }
   
