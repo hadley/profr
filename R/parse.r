@@ -10,9 +10,10 @@
 # @value \code{\link{data.frame}} of class \code{profr}
 # @seealso \code{\link{profr}} for profiling and parsing
 #X nesting <- parse_rprof(system.file("samples", "nesting.rprof", "profr"))
-#X diamonds <- parse_rprof(system.file("samples", "diamonds.rprof", "profr"))
+#X diamonds <- parse_rprof(system.file("samples", "reshape.rprof", "profr"))
 parse_rprof <- function(path, interval=0.02) {
   lines <- scan(path, what="character", sep="\n")
+  
   clean.lines <- lines[-grep("sample\\.interval=",lines)]
   calls <- sapply(clean.lines, strsplit, split=" ", USE.NAMES = FALSE)
   calls <- sapply(calls, rev)
