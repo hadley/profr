@@ -9,8 +9,8 @@
 # @keyword debugging
 # @value \code{\link{data.frame}} of class \code{profr}
 # @seealso \code{\link{profr}} for profiling and parsing
-#X nesting <- parse_rprof(system.file("samples", "nesting.rprof", "profr"))
-#X diamonds <- parse_rprof(system.file("samples", "reshape.rprof", "profr"))
+#X nesting <- parse_rprof(system.file("samples", "nesting.rprof", package="profr"))
+#X diamonds <- parse_rprof(system.file("samples", "reshape.rprof", package="profr"))
 parse_rprof <- function(path, interval=0.02) {
   lines <- scan(path, what="character", sep="\n")
   

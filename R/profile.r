@@ -26,25 +26,25 @@
 #X summary(glm_ex)
 #X plot(glm_ex)
 profr <- function(expr, interval = 0.02, quiet = TRUE) {
-	#assert(is.positive.integer(reps), "Repetitions (reps) must be a positive integer");
-	#assert(is.function(f), "f must be a function");
-	
-	tmp <- tempfile()
-	on.exit(unlink(tmp))
-	on.exit(unlink("Rprof.out"), add=T)
-	
-	if (quiet) {
-  	sink("/dev/null")
-  	on.exit(sink(), add=TRUE)
-	}
-	
-	Rprof(tmp, append=TRUE)
-	try(force(expr))
-	Rprof(NULL)
-	
-	df <- subset(parse_rprof(tmp, interval), level > 7)
-	df$level <- df$level - 7
-	df
+  #assert(is.positive.integer(reps), "Repetitions (reps) must be a positive integer");
+  #assert(is.function(f), "f must be a function");
+  
+  tmp <- tempfile()
+  on.exit(unlink(tmp))
+  on.exit(unlink("Rprof.out"), add=T)
+  
+  if (quiet) {
+    sink("/dev/null")
+    on.exit(sink(), add=TRUE)
+  }
+  
+  Rprof(tmp, append=TRUE)
+  try(force(expr))
+  Rprof(NULL)
+  
+  df <- subset(parse_rprof(tmp, interval), level > 7)
+  df$level <- df$level - 7
+  df
 } 
 
 
