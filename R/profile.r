@@ -40,7 +40,7 @@ profr <- function(expr, interval = 0.02, quiet = TRUE) {
 	
 	Rprof(tmp, append=TRUE)
 	try(force(expr))
-	Rprof()
+	Rprof(NULL)
 	
 	df <- subset(parse_rprof(tmp, interval), level > 7)
 	df$level <- df$level - 7
