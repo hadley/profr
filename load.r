@@ -1,4 +1,5 @@
 # library(prof)
+library(digest)
 
 FILE <- (function() {
   attr(body(sys.function()), "srcfile")
