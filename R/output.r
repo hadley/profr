@@ -10,9 +10,8 @@
 # @arguments function label angle
 # @keyword hplot
 # @seealso \code{\link{ggplot.profr}} 
-#X glm_ex <- profr(example(glm))
-#X plot(glm_ex)
-#X plot(subset(glm_ex, level < 5))
+#X plot(nesting_prof)
+#X plot(reshape_prof)
 plot.profr <- function(x, ..., minlabel = 0.1, angle = 0) {
 	plot(1,1, xlim=range(x$start, x$end), ylim=range(x$level)+c(-0.5, 0.5), type="n", ..., xlab="time", ylab="level")
 	rect(x$start, x$level - 0.5, x$end, x$level +0.5, ...)
@@ -33,8 +32,10 @@ plot.profr <- function(x, ..., minlabel = 0.1, angle = 0) {
 # @arguments function label angle
 # @seealso \code{\link{plot.profr}} 
 # @keyword hplot
-#X glm_ex <- profr(example(glm))
-# 
+#X if (require("ggplot2", quiet = TRUE)) {
+#X  ggplot(nesting_prof)
+#X  ggplot(reshape_prof)
+#X }
 ggplot.profr <- function(data, ..., minlabel = 0.1, angle=0) {
   if (!require("ggplot2", quiet=TRUE)) stop("Please install ggplot2 to use this plotting method")
   data$range <- diff(range(data$time))
