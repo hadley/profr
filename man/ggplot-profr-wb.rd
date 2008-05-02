@@ -15,15 +15,10 @@ Visualise profiling data stored in a \code{profr} data.frame.
 }
 
 \details{This will plot the call tree of the specified stop watch object.
-If you only want a small part, you will need to subset the object
-
-@arguments profile output to plot
-@arguments other arguments passed on to \code{\link[ggplot2]{ggplot}}
-@arguments minimum percent of time for function to get a label
-@arguments function label angle
-@seealso \code{\link{plot.profr}}
-@keyword hplot
-X glm_ex <- profr(example(glm))}
+If you only want a small part, you will need to subset the object}
 \seealso{\code{\link{plot.profr}}}
-\examples{glm_ex <- profr(example(glm))}
+\examples{if (require("ggplot2", quiet = TRUE)) {
+ggplot(nesting_prof)
+ggplot(reshape_prof)
+}}
 \keyword{hplot}

@@ -15,5 +15,6 @@ Parses the output of \code{\link{Rprof}} into an alternative format described in
 \details{This produces a flat data frame, which is somewhat easier to summarise
 and visualise.}
 \seealso{\code{\link{profr}} for profiling and parsing}
-\examples{}
+\examples{nesting <- parse_rprof(system.file("samples", "nesting.rprof", "profr"))
+diamonds <- parse_rprof(system.file("samples", "reshape.rprof", "profr"))}
 \keyword{debugging}

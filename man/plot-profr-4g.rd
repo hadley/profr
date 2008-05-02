@@ -17,7 +17,6 @@ Visualise profiling data stored in a \code{profr} data.frame.
 \details{If you only want a small part of the total call tree, you will need
 to subset the object as demonstrated by the example.}
 \seealso{\code{\link{ggplot.profr}}}
-\examples{glm_ex <- profr(example(glm))
-plot(glm_ex)
-plot(subset(glm_ex, level < 5))}
+\examples{plot(nesting_prof)
+plot(reshape_prof)}
 \keyword{hplot}
