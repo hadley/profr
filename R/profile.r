@@ -37,6 +37,7 @@ profr <- function(expr, interval = 0.02, quiet = TRUE) {
     tc <- textConnection(NULL, "w")
     sink(tc)
     on.exit(sink(), add=TRUE)
+    on.exit(close(tc), add=TRUE)
   }
   
   Rprof(tmp, append=TRUE)
