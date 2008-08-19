@@ -40,7 +40,7 @@ profr <- function(expr, interval = 0.02, quiet = TRUE) {
     on.exit(close(tc), add=TRUE)
   }
   
-  Rprof(tmp, append=TRUE)
+  Rprof(tmp, append=TRUE, interval = interval)
   try(force(expr))
   Rprof(NULL)
   
