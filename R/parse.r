@@ -60,7 +60,7 @@ parse_rprof <- function(path, interval=0.02) {
     start = start, 
     end = start + 1,
     leaf = 1:depth == depth,
-    hist = sapply(1:depth, function(i) digest(call[seq_len(i)])),
+    hist = sapply(1:depth, function(i) digest::digest(call[seq_len(i)])),
     stringsAsFactors = TRUE
   ))
   
