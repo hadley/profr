@@ -1,7 +1,7 @@
 \name{ggplot.profr}
 \alias{ggplot.profr}
 \title{Visualise profiling data with ggplot2.}
-\usage{ggplot.profr(data, ..., minlabel=0.1, angle=0)}
+\usage{\method{ggplot}{profr} (data, ..., minlabel=0.1, angle=0)}
 
 \description{
   Visualise profiling data with ggplot2. Visualise profiling data

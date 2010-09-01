@@ -20,6 +20,7 @@
 #' @param quiet should output be discarded?
 #' @return \code{\link{data.frame}} of class \code{profr}
 #' @keywords debugging
+#' @export
 #' @seealso \code{\link{parse_rprof}} to parse standalone \code{\link{Rprof}}
 #'   file, \code{\link{plot.profr}} and \code{\link{ggplot.profr}} 
 #'   to visualise the profiling data

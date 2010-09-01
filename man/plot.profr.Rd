@@ -1,7 +1,7 @@
 \name{plot.profr}
 \alias{plot.profr}
 \title{Visualise profiling data with base graphics.}
-\usage{plot.profr(x, ..., minlabel=0.1, angle=0)}
+\usage{\method{plot}{profr} (x, ..., minlabel=0.1, angle=0)}
 
 \description{
   Visualise profiling data with base graphics. Visualise profiling data

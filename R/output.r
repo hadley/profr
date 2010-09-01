@@ -10,6 +10,8 @@
 #' @param angle function label angle
 #' @keywords hplot
 #' @seealso \code{\link{ggplot.profr}} 
+#' @method plot profr
+#' @S3method plot profr
 #' @examples
 #' plot(nesting_prof)
 #' plot(reshape_prof)
@@ -33,6 +35,8 @@ plot.profr <- function(x, ..., minlabel = 0.1, angle = 0) {
 #' @param angle function label angle
 #' @seealso \code{\link{plot.profr}} 
 #' @keywords hplot
+#' @method   ggplot profr
+#' @S3method ggplot profr
 #' @examples
 #' if (require("ggplot2", quiet = TRUE)) {
 #'  ggplot(nesting_prof)
