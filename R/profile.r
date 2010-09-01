@@ -52,4 +52,3 @@ profr <- function(expr, interval = 0.02, quiet = TRUE) {
   df$level <- df$level - 7
   df
 } 
-

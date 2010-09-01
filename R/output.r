@@ -43,12 +43,18 @@ plot.profr <- function(x, ..., minlabel = 0.1, angle = 0) {
 #'  ggplot(reshape_prof)
 #' }
 ggplot.profr <- function(data, ..., minlabel = 0.1, angle=0) {
-  if (!require("ggplot2", quiet=TRUE)) stop("Please install ggplot2 to use this plotting method")
+  if (!require("ggplot2", quiet=TRUE)) 
+    stop("Please install ggplot2 to use this plotting method")
   data$range <- diff(range(data$time))
   
   ggplot(as.data.frame(data), aes(x = factor(level))) + 
-  geom_bar(aes(min = start, y = end), position="identity", stat = "identity", width = 1, fill="grey95", colour="black", size=0.5) +
-  geom_text(aes(label=f, y=start + range/60), data=subset(data, time > max(time) * minlabel), size=4, angle=angle, hjust = 0) +
-  scale_y_continuous("time") + scale_x_discrete("level") + 
-  coord_flip()
+    geom_bar(aes(min = start, y = end), 
+      position = "identity", stat = "identity", 
+      width = 1, fill = "grey95", colour = "black", size = 0.5) +
+    geom_text(aes(label = f, y = start + range/60), 
+      data = subset(data, time > max(time) * minlabel), 
+      size = 4, angle = angle, hjust = 0) +
+    scale_y_continuous("time") + 
+    scale_x_discrete("level") + 
+    coord_flip()
 }
