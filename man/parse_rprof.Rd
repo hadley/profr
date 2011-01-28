@@ -4,13 +4,14 @@
 \usage{parse_rprof(path, interval=0.02)}
 
 \description{
-  Parse Rprof output. Parses the output of \code{\link{Rprof}} into an
-  alternative format described in \code{\link{profr}}.
+  Parse Rprof output. Parses the output of
+  \code{\link{Rprof}} into an alternative format described
+  in \code{\link{profr}}.
 }
 
 \details{
-  This produces a flat data frame, which is somewhat easier to
-  summarise and visualise.
+  This produces a flat data frame, which is somewhat easier
+  to summarise and visualise.
 }
 \keyword{debugging}
 \value{\code{\link{data.frame}} of class \code{profr}}

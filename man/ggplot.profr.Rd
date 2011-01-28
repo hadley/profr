@@ -4,13 +4,14 @@
 \usage{\method{ggplot}{profr} (data, ..., minlabel=0.1, angle=0)}
 
 \description{
-  Visualise profiling data with ggplot2. Visualise profiling data
-  stored in a \code{profr} data.frame.
+  Visualise profiling data with ggplot2. Visualise
+  profiling data stored in a \code{profr} data.frame.
 }
 
 \details{
-  This will plot the call tree of the specified stop watch object. If
-  you only want a small part, you will need to subset the object
+  This will plot the call tree of the specified stop watch
+  object. If you only want a small part, you will need to
+  subset the object
 }
 \seealso{\code{\link{plot.profr}}}
 \keyword{hplot}

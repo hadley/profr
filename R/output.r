@@ -36,11 +36,11 @@ plot.profr <- function(x, ..., minlabel = 0.1, angle = 0) {
 #' @seealso \code{\link{plot.profr}} 
 #' @keywords hplot
 #' @method   ggplot profr
-#' @S3method ggplot profr
+#' @export
 #' @examples
 #' if (require("ggplot2", quiet = TRUE)) {
-#'  ggplot(nesting_prof)
-#'  ggplot(reshape_prof)
+#'   ggplot(nesting_prof)
+#'   ggplot(reshape_prof)
 #' }
 ggplot.profr <- function(data, ..., minlabel = 0.1, angle=0) {
   if (!require("ggplot2", quiet=TRUE)) 

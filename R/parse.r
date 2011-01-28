@@ -10,6 +10,7 @@
 #' @keywords debugging
 #' @return \code{\link{data.frame}} of class \code{profr}
 #' @seealso \code{\link{profr}} for profiling and parsing
+#' @export
 #' @examples
 #' nesting <- parse_rprof(system.file("samples", "nesting.rprof", package="profr"))
 #' diamonds <- parse_rprof(system.file("samples", "reshape.rprof", package="profr"))

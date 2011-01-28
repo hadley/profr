@@ -8,17 +8,18 @@
 }
 
 \details{
-  This is a wrapper around \code{\link{Rprof}} that provides results in
-  an alternative data structure, a data.frame.  The columns of the
-  data.frame are:
+  This is a wrapper around \code{\link{Rprof}} that
+  provides results in an alternative data structure, a
+  data.frame.  The columns of the data.frame are:
 
-  \describe{ \item{f}{name of function} \item{level}{level in call
-  stack} \item{time}{total time (seconds) spent in function}
-  \item{start}{time at which control entered function} \item{end}{time
-  at which control exited function} \item{leaf}{\code{TRUE} if the
-  function is a terminal node in the call tree, i.e. didn't call any
-  other functions} \item{source}{guess at the package that the function
-  came from} }
+  \describe{ \item{f}{name of function} \item{level}{level
+  in call stack} \item{time}{total time (seconds) spent in
+  function} \item{start}{time at which control entered
+  function} \item{end}{time at which control exited
+  function} \item{leaf}{\code{TRUE} if the function is a
+  terminal node in the call tree, i.e. didn't call any
+  other functions} \item{source}{guess at the package that
+  the function came from} }
 }
 \value{\code{\link{data.frame}} of class \code{profr}}
 \keyword{debugging}

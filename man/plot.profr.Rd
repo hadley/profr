@@ -4,13 +4,14 @@
 \usage{\method{plot}{profr} (x, ..., minlabel=0.1, angle=0)}
 
 \description{
-  Visualise profiling data with base graphics. Visualise profiling data
-  stored in a \code{profr} data.frame.
+  Visualise profiling data with base graphics. Visualise
+  profiling data stored in a \code{profr} data.frame.
 }
 
 \details{
-  If you only want a small part of the total call tree, you will need
-  to subset the object as demonstrated by the example.
+  If you only want a small part of the total call tree, you
+  will need to subset the object as demonstrated by the
+  example.
 }
 \keyword{hplot}
 \seealso{\code{\link{ggplot.profr}}}

@@ -12,5 +12,5 @@ These two datasets illustrate the results of running \code{\link{parse_rprof}} o
   nesting_prof
   reshape_prof
 }
-\references{}
+
 \keyword{datasets}
