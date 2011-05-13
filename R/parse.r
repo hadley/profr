@@ -38,13 +38,18 @@ parse_rprof <- function(path, interval=0.02) {
     call_info(call, i)
   })
   
-  group_id <- function(x) {
+  group_id <- function(x, y) {
     n <- length(x)
     cumsum(c(TRUE, x[-1] != x[-n]))
   } 
-  levels <- ddply(df, "level", mutate, id = group_id(hist))
+  # A group consists of all calls with the same history, in a 
+  # consecutive block of time
+  levels <- ddply(df, "level", mutate, 
+    g_id = group_id(hist),
+    t_id = cumsum(c(TRUE, diff(start) != 1))
+  )
   
-  collapsed <- ddply(levels, c("level", "id"), summarise, 
+  collapsed <- ddply(levels, c("level", "g_id", "t_id"), summarise, 
     f = f[1], 
     start = min(start), 
     end = max(end), 
