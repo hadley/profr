@@ -1,5 +1,5 @@
 Package: profr
-Imports: digest, stringr, plyr
+Imports: stringr, plyr
 Maintainer: Hadley Wickham <h.wickham@gmail.com>
 License: MIT
 Title: An alternative display for profiling information

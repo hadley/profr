@@ -37,6 +37,7 @@ parse_rprof <- function(path, interval=0.02) {
     call <- calls[[i]]
     call_info(call, i)
   })
+  df$hist <- id(list(df$hist))
   
   group_id <- function(x, y) {
     n <- length(x)
@@ -68,7 +69,7 @@ parse_rprof <- function(path, interval=0.02) {
 call_info <- function(call, i) {
   n <- length(call)
   history <- unlist(lapply(seq_along(call), function(i) {
-    digest(call[seq_len(i)])
+    paste(call[seq_len(i)], collapse = "")
   }))
   
   quickdf(list(
