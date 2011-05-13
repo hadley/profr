@@ -1,10 +1,10 @@
 \name{profr}
 \alias{profr}
-\title{profr...}
+\title{Profile the performance of a function call.}
 \usage{profr(expr, interval=0.02, quiet=TRUE)}
 
 \description{
-  profr Profile the performance of function call.
+  Profile the performance of a function call.
 }
 
 \details{
@@ -31,7 +31,9 @@ to visualise the profiling data}
   \item{interval}{interval between samples (in seconds)}
   \item{quiet}{should output be discarded?}
 }
-\examples{glm_ex <- profr(example(glm))
+\examples{\dontrun{
+glm_ex <- profr({Sys.sleep(1); example(glm)}, 0.01)
 head(glm_ex)
 summary(glm_ex)
-plot(glm_ex)}
+plot(glm_ex)
+}}

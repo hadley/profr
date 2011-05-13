@@ -21,4 +21,7 @@
   \item{interval}{real-time interval between samples (in seconds)}
 }
 \examples{nesting <- parse_rprof(system.file("samples", "nesting.rprof", package="profr"))
-diamonds <- parse_rprof(system.file("samples", "reshape.rprof", package="profr"))}
+
+reshape_ex <- system.file("samples", "reshape.rprof", package="profr")
+diamonds <- parse_rprof(reshape_ex)
+p <- profr(parse_rprof(reshape_ex))}
