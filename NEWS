@@ -6,6 +6,8 @@ Version 0.3
 * Corrected bug in parsing that lead to incorrect collapsing of non-adjacent
   functions
 
+* Get `ggplot2.profr` working again.
+
 Changes in version 0.2 
 ------------------------------------------------------------------------------
 

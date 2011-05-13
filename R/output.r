@@ -47,14 +47,12 @@ ggplot.profr <- function(data, ..., minlabel = 0.1, angle=0) {
     stop("Please install ggplot2 to use this plotting method")
   data$range <- diff(range(data$time))
   
-  ggplot(as.data.frame(data), aes(x = factor(level))) + 
-    geom_bar(aes(min = start, y = end), 
-      position = "identity", stat = "identity", 
-      width = 1, fill = "grey95", colour = "black", size = 0.5) +
-    geom_text(aes(label = f, y = start + range/60), 
+  ggplot(as.data.frame(data)) + 
+    geom_rect(aes(xmin = start, xmax = end, ymin = level - 0.5, ymax = level + 0.5), 
+      fill = "grey95", colour = "black", size = 0.5) +
+    geom_text(aes(start + range / 60, level, label = f), 
       data = subset(data, time > max(time) * minlabel), 
       size = 4, angle = angle, hjust = 0) +
     scale_y_continuous("time") + 
-    scale_x_discrete("level") + 
-    coord_flip()
+    scale_x_continuous("level")
 }
