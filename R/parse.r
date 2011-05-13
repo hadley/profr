@@ -1,9 +1,8 @@
 #' Parse Rprof output.
+#'
 #' Parses the output of \code{\link{Rprof}} into an alternative format
-#' described in \code{\link{profr}}.
-#' 
-#' This produces a flat data frame, which is somewhat easier to summarise
-#' and visualise.
+#' described in \code{\link{profr}}. This produces a flat data frame, which is
+#' somewhat easier to summarise and visualise.
 #' 
 #' @param path path to \code{\link{Rprof}} output
 #' @param interval real-time interval between samples (in seconds)
@@ -13,7 +12,8 @@
 #' @import stringr plyr
 #' @export
 #' @examples
-#' nesting <- parse_rprof(system.file("samples", "nesting.rprof", package="profr"))
+#' nesting_ex <- system.file("samples", "nesting.rprof", package="profr")
+#' nesting <- parse_rprof(nesting_ex)
 #' 
 #' reshape_ex <- system.file("samples", "reshape.rprof", package="profr")
 #' diamonds <- parse_rprof(reshape_ex)
