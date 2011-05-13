@@ -1,5 +1,4 @@
-#' profr
-#' Profile the performance of function call.
+#' Profile the performance of a function call.
 #'
 #' This is a wrapper around \code{\link{Rprof}} that provides results in an
 #' alternative data structure, a data.frame.  The columns of the data.frame
@@ -25,10 +24,12 @@
 #'   file, \code{\link{plot.profr}} and \code{\link{ggplot.profr}} 
 #'   to visualise the profiling data
 #' @examples
-#' glm_ex <- profr(example(glm))
+#' \dontrun{
+#' glm_ex <- profr({Sys.sleep(1); example(glm)}, 0.01)
 #' head(glm_ex)
 #' summary(glm_ex)
 #' plot(glm_ex)
+#' }
 profr <- function(expr, interval = 0.02, quiet = TRUE) {
   #assert(is.positive.integer(reps), "Repetitions (reps) must be a positive integer");
   #assert(is.function(f), "f must be a function");
@@ -48,7 +49,8 @@ profr <- function(expr, interval = 0.02, quiet = TRUE) {
   try(force(expr))
   Rprof(NULL)
   
-  df <- subset(parse_rprof(tmp, interval), level > 7)
-  df$level <- df$level - 7
-  df
+  parsed <- parse_rprof(tmp, interval)
+  parsed <- parsed[parsed$level > 7, ]
+  parsed$level <- parsed$level - 7
+  parsed
 } 

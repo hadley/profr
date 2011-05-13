@@ -1,6 +1,9 @@
 Version 0.3
 ===========
 
+* Rewritten parsing to be about 3x faster
+
+
 Changes in version 0.2 
 ------------------------------------------------------------------------------
 

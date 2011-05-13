@@ -10,80 +10,78 @@
 #' @keywords debugging
 #' @return \code{\link{data.frame}} of class \code{profr}
 #' @seealso \code{\link{profr}} for profiling and parsing
+#' @import stringr plyr
 #' @export
 #' @examples
 #' nesting <- parse_rprof(system.file("samples", "nesting.rprof", package="profr"))
-#' diamonds <- parse_rprof(system.file("samples", "reshape.rprof", package="profr"))
+#' 
+#' reshape_ex <- system.file("samples", "reshape.rprof", package="profr")
+#' diamonds <- parse_rprof(reshape_ex)
+#' p <- profr(parse_rprof(reshape_ex))
 parse_rprof <- function(path, interval=0.02) {
-  lines <- scan(path, what="character", sep="\n")
+  lines <- readLines(path)[-1]
   
-  clean.lines <- lines[-grep("sample\\.interval=",lines)]
-  calls <- sapply(clean.lines, strsplit, split=" ", USE.NAMES = FALSE)
-  calls <- sapply(calls, rev)
-  calls <- sapply(calls, function(x) gsub("\"","", x))
+  calls <- str_split(lines, " ")
+  calls <- lapply(calls, function(x) rev(str_replace_all(x, "\"", ""))[-1])
   
   df <- .simplify(calls)
   
   times <- c("time", "start", "end")
   df[times] <- df[times] * interval
   
-  df[c("f", "level", times, "leaf", "source")]
+  df
 }
 
 .simplify <- function(calls) {
-  df <- .expand(calls)
-  
-  levels <- split(df, df$level)
-  res <- do.call(rbind, lapply(levels, .collapse_adjacent))
-
-  rownames(res) <- 1:nrow(res)
-  res$time <- res$end - res$start
-  res$source <- .function_sources(res)
-  class(res) <- c("profr", "data.frame")
-  res
-}
-
-.collapse_adjacent <- function(df) {
-  # for each level, want to collapse consecutive of the same function to one
-  # provided all previous calls are the same too
-  
-  id <- cumsum(c(TRUE, df$hist[-1] != df$hist[-nrow(df)]))
-  groups <- lapply(split(df, id), function(df) {
-    transform(df[1, ], end = max(df$end))
+  df <- ldply(seq_along(calls), function(i) {
+    call <- calls[[i]]
+    call_info(call, i)
   })
-  do.call("rbind", groups)
-}
-
-.expand <- function(calls) {
-  .expand.call <- function(s1) with(s1, data.frame(
-    f = call, 
-    level = 1:depth, 
-    start = start, 
-    end = start + 1,
-    leaf = 1:depth == depth,
-    hist = sapply(1:depth, function(i) digest::digest(call[seq_len(i)])),
-    stringsAsFactors = TRUE
-  ))
   
-  depth <- sapply(calls, length)
-  calldf <- data.frame(
-    call = array(unclass(calls)),
-    start = 0:(length(calls)-1),
-    depth = depth,
-    stringsAsFactors = TRUE
+  group_id <- function(x) {
+    n <- length(x)
+    cumsum(c(TRUE, x[-1] != x[-n]))
+  } 
+  levels <- ddply(df, "level", mutate, id = group_id(hist))
+  
+  collapsed <- ddply(levels, c("level", "id"), summarise, 
+    f = f[1], 
+    start = min(start), 
+    end = max(end), 
+    n = length(f),
+    leaf = leaf[1]
   )
+  collapsed <- mutate(collapsed,
+    time = end - start,
+    source = function_source(f)
+  )
+  # subset(collapsed, time != n)
   
-  do.call(rbind, apply(calldf, 1, .expand.call))
+  structure(collapsed, class = c("profr", "data.frame"))
 }
 
+call_info <- function(call, i) {
+  n <- length(call)
+  history <- unlist(lapply(seq_along(call), function(i) {
+    digest(call[seq_len(i)])
+  }))
+  
+  quickdf(list(
+    f = call, 
+    level = seq_along(call), 
+    start = rep(i, n), 
+    end = rep(i + 1, n),
+    leaf = c(rep(FALSE, n - 1), TRUE),
+    hist = history
+  ))
+}
 
-.function_sources <- function(df) {
-  fs <- sapply(levels(df$f), function(x) do.call(getAnywhere, list(x))$where[1])
-  
-  packaged <- grep("package", fs)
-  names <- sapply(strsplit(fs[packaged], ":"), "[", 2)
-  
-  fs[-packaged] <- NA
-  fs[packaged] <- names
-  unname(fs[as.character(df$f)])
+function_source <- function(f) {
+  pkgs <- search()
+  names(pkgs) <- pkgs
+  all_objs <- ldply(pkgs, as.data.frame(ls))
+  names(all_objs) <- c("package", "f")
+  all_objs$package <- str_replace_all(all_objs$package, "package:", "")
+
+  all_objs$package[match(f, all_objs$f)]
 }

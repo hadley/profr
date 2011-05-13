@@ -1,4 +1,5 @@
 S3method(plot, profr)
 export(ggplot.profr)
+import(stringr, plyr)
 export(parse_rprof)
 export(profr)
