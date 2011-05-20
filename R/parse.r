@@ -32,6 +32,12 @@ parse_rprof <- function(path, interval=0.02) {
   df
 }
 
+group_id <- function(x, y) {
+  n <- length(x)
+  cumsum(c(TRUE, x[-1] != x[-n]))
+} 
+
+
 .simplify <- function(calls) {
   df <- ldply(seq_along(calls), function(i) {
     call <- calls[[i]]
@@ -39,10 +45,6 @@ parse_rprof <- function(path, interval=0.02) {
   })
   df$hist <- id(list(df$hist))
   
-  group_id <- function(x, y) {
-    n <- length(x)
-    cumsum(c(TRUE, x[-1] != x[-n]))
-  } 
   # A group consists of all calls with the same history, in a 
   # consecutive block of time
   levels <- ddply(df, "level", mutate, 
