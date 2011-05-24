@@ -17,6 +17,7 @@ Suggests:
     qtpaint,
     qtbase
 Collate:
+    'explore.r'
     'output.r'
     'parse.r'
     'profile.r'

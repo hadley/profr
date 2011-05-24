@@ -1,7 +1,7 @@
 #' @examples
 #' reshape_ex <- system.file("samples", "reshape.rprof", package="profr")
 #' if (require("qtbase")) {
-#'    explore(parse_rprof(reshape_ex)
+#'    explore(parse_rprof(reshape_ex))
 #' }
 explore <- function(df) {
   require("qtbase")
@@ -101,6 +101,6 @@ explore <- function(df) {
   layout$setRowMinimumHeight(1,100)
 
 
-  view <- qplotView(scene = scene)
+  view <- qplotView(scene = scene, opengl = FALSE)
   view
 }
