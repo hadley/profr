@@ -49,8 +49,9 @@ profr <- function(expr, interval = 0.02, quiet = TRUE) {
   try(force(expr))
   Rprof(NULL)
   
+  n <- 6 + sys.nframe()
   parsed <- parse_rprof(tmp, interval)
-  parsed <- parsed[parsed$level > 7, ]
-  parsed$level <- parsed$level - 7
+  parsed <- parsed[parsed$level > n, ]
+  parsed$level <- parsed$level - n
   parsed
 } 
