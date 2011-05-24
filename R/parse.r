@@ -41,7 +41,7 @@ group_id <- function(x, y) {
 .simplify <- function(calls) {
   df <- ldply(seq_along(calls), function(i) {
     call <- calls[[i]]
-    call_info(call, i)
+    call_info(call, i - 1)
   })
   df$hist <- id(list(df$hist))
   
