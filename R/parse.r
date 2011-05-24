@@ -47,10 +47,12 @@ group_id <- function(x, y) {
   
   # A group consists of all calls with the same history, in a 
   # consecutive block of time
-  levels <- ddply(df, "level", mutate, 
-    g_id = group_id(hist),
-    t_id = cumsum(c(TRUE, diff(start) != 1))
-  )
+  levels <- ddply(df, "level", function(df) {
+    mutate(df, 
+      g_id = group_id(hist),
+      t_id = cumsum(c(TRUE, diff(start) != 1))
+    )
+  })
   
   collapsed <- ddply(levels, c("level", "g_id", "t_id"), summarise, 
     f = f[1], 
