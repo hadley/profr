@@ -31,7 +31,8 @@ explore <- function(df) {
   
   text_draw <- function(layer, painter, exposed) {
     width <- qstrWidth(painter, df$label)
-    labels <- df[df$time > width, ]
+    height <- qstrHeight(painter, df$label)
+    labels <- df[df$time > width & height <= 0.95, ]
     if (nrow(labels) == 0) return()
     
     qdrawText(painter, as.character(labels$label), x = labels$start, 
