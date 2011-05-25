@@ -34,7 +34,8 @@ explore <- function(df) {
   legend_draw <- function(layer, painter, exposed){
     text <- paste("call = ", fun, "()", sep = "") 
     if (length(fun) > 0) {
-      qdrawText(painter, fun, x = 1, y = 5, halign = "left")      
+      qdrawText(painter, fun, x = 1, y = 1, halign = "left", 
+        valign = "baseline")      
     }
   }
 
