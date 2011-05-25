@@ -9,6 +9,7 @@ explore <- function(df) {
   
   ymax <- max(df$level) + 1
   xmax <- max(df$end)
+  df$label <- paste(" ", df$f, " ", sep = "")  
   
   # dynamic variables
   highlights <- df[0, ]
@@ -19,17 +20,22 @@ explore <- function(df) {
     qdrawRect(painter, xleft = df$start, xright = df$end, 
       ybottom = df$level - 1, ytop = df$level, 
       stroke = "#302C29", fill = "#FFFFE6")
-
+  }
+  
+  highlight_draw <- function(layer, painter, exposed) {
+    if (nrow(highlights) == 0) return()
     qdrawRect(painter, xleft = highlights$start, xright = highlights$end, 
       ybottom = highlights$level - 1, ytop = highlights$level, 
       stroke = "#302C29", fill = "#A7C4BB")
+  }
+  
+  text_draw <- function(layer, painter, exposed) {
+    width <- qstrWidth(painter, df$label)
+    labels <- df[df$time > width, ]
+    if (nrow(labels) == 0) return()
     
-    width <- qstrWidth(painter, df$f)
-    offset <- xmax / 100
-    labels <- df[df$time > (width + offset * 2), ]
-    qdrawText(painter, as.character(labels$f), x = labels$start + offset, 
+    qdrawText(painter, as.character(labels$label), x = labels$start, 
       y = labels$level - 0.5, halign = "left", color = "#302C29")
-
   }
   
   legend_draw <- function(layer, painter, exposed){
@@ -54,11 +60,16 @@ explore <- function(df) {
   rects_press <- function(layer, event, ...) {
     fun_info <- zoomFun(event)
     if (nrow(fun_info) == 0) {
-      rects$setLimits(qrect(0, 0, xmax, ymax))
+      limits <- qrect(0, 0, xmax, ymax)
     } else {
-    rects$setLimits(qrect(x0 = fun_info$start, y0 = fun_info$level - 1,
-      x1 = fun_info$end, y1 = ymax))
+      limits <- qrect(x0 = fun_info$start, y0 = fun_info$level - 1,
+        x1 = fun_info$end, y1 = ymax)
     }  
+    
+    rects$setLimits(limits)
+    highlight$setLimits(limits)
+    text$setLimits(limits)
+    
     qupdate(scene)
   }  
   
@@ -91,11 +102,15 @@ explore <- function(df) {
   legend <- qlayer(root, legend_draw)
   rects <- qlayer(root, rects_draw, row = 1, 
     hoverMoveFun = rects_hover,
-    mousePressFun = rects_press)
+    mousePressFun = rects_press, cache = TRUE)
+  highlight <- qlayer(root, highlight_draw, row = 1)
+  text <- qlayer(root, text_draw, cache = TRUE, row = 1)
   
   # set layer limits
   legend$setLimits(qrect(0, 0, 100, 10))
   rects$setLimits(qrect(0, 0, xmax, ymax))
+  highlight$setLimits(qrect(0, 0, xmax, ymax))
+  text$setLimits(qrect(0, 0, xmax, ymax))
 
   #set layout
   layout <- root$gridLayout()
