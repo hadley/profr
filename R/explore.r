@@ -16,18 +16,19 @@ explore <- function(df) {
 
   # painter functions
   rects_draw <- function(layer, painter, exposed) {
+    qdrawRect(painter, xleft = df$start, xright = df$end, 
+      ybottom = df$level - 1, ytop = df$level, 
+      stroke = "#302C29", fill = "#FFFFE6")
+
     qdrawRect(painter, xleft = highlights$start, xright = highlights$end, 
       ybottom = highlights$level - 1, ytop = highlights$level, 
-      stroke = NA, fill = "grey80")
-    
-    qdrawRect(painter, xleft = df$start, xright = df$end, 
-      ybottom = df$level - 1, ytop = df$level, stroke = "black", fill = NA)
+      stroke = "#302C29", fill = "#A7C4BB")
     
     width <- qstrWidth(painter, df$f)
     offset <- xmax / 100
     labels <- df[df$time > (width + offset * 2), ]
     qdrawText(painter, as.character(labels$f), x = labels$start + offset, 
-      y = labels$level - 0.5, halign = "left")
+      y = labels$level - 0.5, halign = "left", color = "#302C29")
 
   }
   
