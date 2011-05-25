@@ -24,8 +24,9 @@ explore <- function(df) {
       ybottom = df$level - 1, ytop = df$level, stroke = "black", fill = NA)
     
     width <- qstrWidth(painter, df$f)
-    labels <- df[df$time > width, ]
-    qdrawText(painter, as.character(labels$f), x = labels$start, 
+    offset <- xmax / 100
+    labels <- df[df$time > (width + offset * 2), ]
+    qdrawText(painter, as.character(labels$f), x = labels$start + offset, 
       y = labels$level - 0.5, halign = "left")
 
   }
