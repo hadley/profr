@@ -42,17 +42,19 @@ plot.profr <- function(x, ..., minlabel = 0.1, angle = 0) {
 #'   ggplot(nesting_prof)
 #'   ggplot(reshape_prof)
 #' }
-ggplot.profr <- function(data, ..., minlabel = 0.1, angle=0) {
-  if (!require("ggplot2", quiet=TRUE)) 
+ggplot.profr <- function (data, ..., minlabel = 0.1, angle = 0){
+  if (!require("ggplot2", quiet = TRUE)) 
     stop("Please install ggplot2 to use this plotting method")
   data$range <- diff(range(data$time))
-  
-  ggplot(as.data.frame(data)) + 
-    geom_rect(aes(xmin = start, xmax = end, ymin = level - 0.5, ymax = level + 0.5), 
-      fill = "grey95", colour = "black", size = 0.5) +
-    geom_text(aes(start + range / 60, level, label = f), 
-      data = subset(data, time > max(time) * minlabel), 
-      size = 4, angle = angle, hjust = 0) +
-    scale_y_continuous("time") + 
-    scale_x_continuous("level")
+  ggplot(as.data.frame(data), aes(y=level)) + 
+      geom_rect(
+          #aes(xmin=(level), xmax=factor(level)+1, ymin=start, ymax=end),  
+          aes(ymin=level-0.5, ymax=level+0.5, xmin=start, xmax=end),  
+          #position = "identity", stat = "identity", width = 1, 
+          fill = "grey95", 
+          colour = "black", size = 0.5) + 
+      geom_text(aes(label = f, x = start + range/60), 
+          data = subset(data, time > max(time) * minlabel), size = 4, angle = angle, vjust=0.5, hjust = 0) + 
+      scale_x_continuous("time") + 
+      scale_y_continuous("level")
 }
