@@ -48,9 +48,7 @@ ggplot.profr <- function (data, ..., minlabel = 0.1, angle = 0){
   data$range <- diff(range(data$time))
   ggplot(as.data.frame(data), aes(y=level)) + 
       geom_rect(
-          #aes(xmin=(level), xmax=factor(level)+1, ymin=start, ymax=end),  
           aes(ymin=level-0.5, ymax=level+0.5, xmin=start, xmax=end),  
-          #position = "identity", stat = "identity", width = 1, 
           fill = "grey95", 
           colour = "black", size = 0.5) + 
       geom_text(aes(label = f, x = start + range/60), 
