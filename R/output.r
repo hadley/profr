@@ -1,6 +1,6 @@
 #' Visualise profiling data with base graphics.
-#' Visualise profiling data stored in a \code{profr} data.frame.
 #'
+#' @details
 #' If you only want a small part of the total call tree, you will need
 #' to subset the object as demonstrated by the example.
 #'
@@ -24,8 +24,8 @@ plot.profr <- function(x, ..., minlabel = 0.1, angle = 0) {
 }
 
 #' Visualise profiling data with ggplot2.
-#' Visualise profiling data stored in a \code{profr} data.frame.
 #'
+#' @details
 #' This will plot the call tree of the specified stop watch object.
 #' If you only want a small part, you will need to subset the object
 #'
@@ -35,8 +35,8 @@ plot.profr <- function(x, ..., minlabel = 0.1, angle = 0) {
 #' @param angle function label angle
 #' @seealso \code{\link{plot.profr}}
 #' @keywords hplot
-#' @method   ggplot profr
-#' @export
+#' @method ggplot profr
+#' @export ggplot.profr
 #' @examples
 #' if (require("ggplot2", quiet = TRUE)) {
 #'   ggplot(nesting_prof)

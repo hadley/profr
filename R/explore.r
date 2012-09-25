@@ -1,5 +1,6 @@
 #' Interactively explore profiling results.
 #'
+#' @details
 #' Interaction:
 #'
 #' \itemize{

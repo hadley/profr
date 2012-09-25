@@ -1,5 +1,6 @@
 #' Profile the performance of a function call.
 #'
+#' @details
 #' This is a wrapper around \code{\link{Rprof}} that provides results in an
 #' alternative data structure, a data.frame.  The columns of the data.frame
 #' are:

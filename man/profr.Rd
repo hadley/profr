@@ -1,12 +1,22 @@
 \name{profr}
 \alias{profr}
 \title{Profile the performance of a function call.}
-\usage{profr(expr, interval=0.02, quiet=TRUE)}
+\usage{
+  profr(expr, interval = 0.02, quiet = TRUE)
+}
+\arguments{
+  \item{expr}{expression to profile}
 
+  \item{interval}{interval between samples (in seconds)}
+
+  \item{quiet}{should output be discarded?}
+}
+\value{
+  \code{\link{data.frame}} of class \code{profr}
+}
 \description{
   Profile the performance of a function call.
 }
-
 \details{
   This is a wrapper around \code{\link{Rprof}} that
   provides results in an alternative data structure, a
@@ -21,19 +31,19 @@
   other functions} \item{source}{guess at the package that
   the function came from} }
 }
-\value{\code{\link{data.frame}} of class \code{profr}}
-\keyword{debugging}
-\seealso{\code{\link{parse_rprof}} to parse standalone \code{\link{Rprof}}
-file, \code{\link{plot.profr}} and \code{\link{ggplot.profr}} 
-to visualise the profiling data}
-\arguments{
-  \item{expr}{expression to profile}
-  \item{interval}{interval between samples (in seconds)}
-  \item{quiet}{should output be discarded?}
-}
-\examples{\dontrun{
+\examples{
+\dontrun{
 glm_ex <- profr({Sys.sleep(1); example(glm)}, 0.01)
 head(glm_ex)
 summary(glm_ex)
 plot(glm_ex)
-}}
+}
+}
+\seealso{
+  \code{\link{parse_rprof}} to parse standalone
+  \code{\link{Rprof}} file, \code{\link{plot.profr}} and
+  \code{\link{ggplot.profr}} to visualise the profiling
+  data
+}
+\keyword{debugging}
+
