@@ -2,7 +2,7 @@
 #'
 #' This is a wrapper around \code{\link{Rprof}} that provides results in an
 #' alternative data structure, a data.frame.  The columns of the data.frame
-#' are: 
+#' are:
 #'
 #' \describe{
 #'   \item{f}{name of function}
@@ -21,7 +21,7 @@
 #' @keywords debugging
 #' @export
 #' @seealso \code{\link{parse_rprof}} to parse standalone \code{\link{Rprof}}
-#'   file, \code{\link{plot.profr}} and \code{\link{ggplot.profr}} 
+#'   file, \code{\link{plot.profr}} and \code{\link{ggplot.profr}}
 #'   to visualise the profiling data
 #' @examples
 #' \dontrun{
@@ -33,25 +33,25 @@
 profr <- function(expr, interval = 0.02, quiet = TRUE) {
   #assert(is.positive.integer(reps), "Repetitions (reps) must be a positive integer");
   #assert(is.function(f), "f must be a function");
-  
+
   tmp <- tempfile()
   on.exit(unlink(tmp))
   on.exit(unlink("Rprof.out"), add=T)
-  
+
   if (quiet) {
     tc <- textConnection(NULL, "w")
     sink(tc)
     on.exit(sink(), add=TRUE)
     on.exit(close(tc), add=TRUE)
   }
-  
+
   Rprof(tmp, append=TRUE, interval = interval)
   try(force(expr))
   Rprof(NULL)
-  
+
   n <- 6 + sys.nframe()
   parsed <- parse_rprof(tmp, interval)
   parsed <- parsed[parsed$level > n, ]
   parsed$level <- parsed$level - n
   parsed
-} 
+}
