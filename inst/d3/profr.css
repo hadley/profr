@@ -3,6 +3,11 @@ text {
   font-size: 10pt;
 }
 
+rect {
+  fill: white;
+  stroke: black;
+}
+
 .selected {
   fill: #eee;
 }
@@ -13,6 +18,7 @@ text {
   background-color: #eee;  
   top: 0px;
   left: 0px;
+  height: 20px;
 }
 
 text {
