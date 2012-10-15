@@ -15,7 +15,8 @@ Version: 0.3
 Suggests:
     ggplot2,
     qtpaint,
-    qtbase
+    qtbase,
+    rjson
 Collate:
     'explore.r'
     'output.r'
