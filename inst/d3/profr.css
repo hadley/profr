@@ -4,5 +4,17 @@ text {
 }
 
 .selected {
-  fill: red;
+  fill: #eee;
+}
+
+.header {
+  position: absolute;
+  width: 100%;
+  background-color: #eee;  
+  top: 0px;
+  left: 0px;
+}
+
+.infobox {
+  padding: 5px;
 }
