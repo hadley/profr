@@ -44,15 +44,15 @@ mouse_over = (rec) ->
   info.select(".time").text(rec.time)
 
   funs = (fun for fun in data when fun.f == rec.f)
-  rect = svg.selectAll("rect").data(funs, id).
-    attr("fill", "red")
+  rect = svg.selectAll("rect").data(funs, id)
+    .classed("selected", true)
 
 mouse_out = (rec) ->
   d3.select(".infobox").style("display", "none")
 
   funs = (fun for fun in data when fun.f == rec.f)
   rect = svg.selectAll("rect").data(funs, id)
-    .attr("fill", "white")
+    .classed("selected", false)
   
 
 redraw = ->

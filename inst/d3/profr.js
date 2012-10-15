@@ -78,7 +78,7 @@
       }
       return _results;
     })();
-    return rect = svg.selectAll("rect").data(funs, id).attr("fill", "red");
+    return rect = svg.selectAll("rect").data(funs, id).classed("selected", true);
   };
 
   mouse_out = function(rec) {
@@ -95,7 +95,7 @@
       }
       return _results;
     })();
-    return rect = svg.selectAll("rect").data(funs, id).attr("fill", "white");
+    return rect = svg.selectAll("rect").data(funs, id).classed("selected", false);
   };
 
   redraw = function() {

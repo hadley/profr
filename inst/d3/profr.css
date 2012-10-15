@@ -2,3 +2,7 @@ text {
   font-family: "Helvetica Neue", Verdana, Arial, sans-serif;
   font-size: 10pt;
 }
+
+.selected {
+  fill: red;
+}
