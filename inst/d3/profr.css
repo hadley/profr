@@ -15,6 +15,10 @@ text {
   left: 0px;
 }
 
+text {
+  pointer-events: none
+}
+
 .infobox {
   padding: 5px;
 }
