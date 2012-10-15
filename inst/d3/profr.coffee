@@ -19,24 +19,23 @@ id = (d) -> [d.start, d.level]
 # Ensure svg fills entire window (with round number of lines),
 # subset data and set up scales
 rescale = -> 
-  width = window.innerWidth - margin.left - margin.right
-  height = window.innerHeight - margin.top - margin.bottom
+  win_width = window.innerWidth - margin.left - margin.right
+  win_height = window.innerHeight - margin.top - margin.bottom
 
-  lines = height / line_height << 0 # round down
+  lines = win_height / line_height << 0 # round down
   height = lines * line_height
   
   svg
-    .attr("width", width)
-    .attr("height", height)
+    .attr("width", win_width)
+    .attr("height", win_height)
 
   shown = (el for el in data when el.level < lines)
   x_scale = d3.scale.linear()
-    .range([0, width])
+    .range([0, win_width])
     .domain([0, d3.max(shown, (d) -> d.end)])
   y_scale = d3.scale.linear()
-    .range([0, height])
+    .range([0, win_height])
     .domain([0, d3.max(shown, (d) -> d.level)])
-
 
 mouse_over = (rec) ->
   info = d3.select(".infobox")
@@ -52,8 +51,8 @@ mouse_out = (rec) ->
   d3.select(".infobox").style("display", "none")
 
   funs = (fun for fun in data when fun.f == rec.f)
-  rect = svg.selectAll("rect").data(funs, id).
-    attr("fill", "white")
+  rect = svg.selectAll("rect").data(funs, id)
+    .attr("fill", "white")
   
 
 redraw = ->
@@ -74,19 +73,22 @@ redraw = ->
     .attr("height", (d) -> y_scale(1))
     .attr("width", (d) -> x_scale(d.end) - x_scale(d.start))
 
-  # # Label functions, if space
-  # text = svg.selectAll("text").data(shown, id)
+  # Label functions, if space
+  text = svg.selectAll("text").data(shown, id)
 
-  # text.enter().append("text")
-  #   .text((d) -> d.f)
+  text.enter().append("text")
+    .text((d) -> d.f)
 
-  # text
-  #   .attr("x", (d) -> x_scale(d.start) + 4)
-  #   .attr("y", (d) -> y_scale(d.level + 0.75))
+  text
+    .attr("x", (d) -> x_scale(d.start) + 4)
+    .attr("y", (d) -> y_scale(d.level + 0.75))
 
-  # text.style("display", (d, i) -> 
-  #   if (this.getBBox().width + 8 < width(d)) then "block" else "none"
-  # )
+  svg.selectAll("text")
+    .each((d) -> this.__width = this.getBBox().width + 8)
+    .style("display", (d) ->
+      console.log this.__width
+      if this.__width < width(d) then "block" else "none"
+    )
 
 window.onresize = redraw
 d3.json "p.json", (d) -> 

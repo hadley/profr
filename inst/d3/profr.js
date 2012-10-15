@@ -32,12 +32,12 @@
   };
 
   rescale = function() {
-    var el, height, lines;
-    width = window.innerWidth - margin.left - margin.right;
-    height = window.innerHeight - margin.top - margin.bottom;
-    lines = height / line_height << 0;
+    var el, height, lines, win_height, win_width;
+    win_width = window.innerWidth - margin.left - margin.right;
+    win_height = window.innerHeight - margin.top - margin.bottom;
+    lines = win_height / line_height << 0;
     height = lines * line_height;
-    svg.attr("width", width).attr("height", height);
+    svg.attr("width", win_width).attr("height", win_height);
     shown = (function() {
       var _i, _len, _results;
       _results = [];
@@ -49,12 +49,12 @@
       }
       return _results;
     })();
-    x_scale = d3.scale.linear().range([0, width]).domain([
+    x_scale = d3.scale.linear().range([0, win_width]).domain([
       0, d3.max(shown, function(d) {
         return d.end;
       })
     ]);
-    return y_scale = d3.scale.linear().range([0, height]).domain([
+    return y_scale = d3.scale.linear().range([0, win_height]).domain([
       0, d3.max(shown, function(d) {
         return d.level;
       })
@@ -99,7 +99,7 @@
   };
 
   redraw = function() {
-    var rect;
+    var rect, text;
     rescale();
     rect = svg.selectAll("rect").data(shown, id);
     rect.enter().append("rect").attr("fill", "white").attr("stroke", "black").on("mouseover", function(d) {
@@ -107,7 +107,7 @@
     }).on("mouseout", function(d) {
       return mouse_out(d);
     });
-    return rect.attr("x", function(d) {
+    rect.attr("x", function(d) {
       return x_scale(d.start);
     }).attr("y", function(d) {
       return y_scale(d.level);
@@ -115,6 +115,25 @@
       return y_scale(1);
     }).attr("width", function(d) {
       return x_scale(d.end) - x_scale(d.start);
+    });
+    text = svg.selectAll("text").data(shown, id);
+    text.enter().append("text").text(function(d) {
+      return d.f;
+    });
+    text.attr("x", function(d) {
+      return x_scale(d.start) + 4;
+    }).attr("y", function(d) {
+      return y_scale(d.level + 0.75);
+    });
+    return svg.selectAll("text").each(function(d) {
+      return this.__width = this.getBBox().width + 8;
+    }).style("display", function(d) {
+      console.log(this.__width);
+      if (this.__width < width(d)) {
+        return "block";
+      } else {
+        return "none";
+      }
     });
   };
 
