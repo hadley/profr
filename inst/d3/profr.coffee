@@ -116,8 +116,6 @@ redraw = ->
     )
 
 window.onresize = redraw
-d3.json "p.json", (d) -> 
+d3.json window.profr_path, (d) -> 
   data = d
   redraw()
-
-

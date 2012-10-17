@@ -168,7 +168,7 @@
 
   window.onresize = redraw;
 
-  d3.json("p.json", function(d) {
+  d3.json(window.profr_path, function(d) {
     data = d;
     return redraw();
   });
