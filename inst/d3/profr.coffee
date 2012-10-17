@@ -1,3 +1,9 @@
+# TODO:
+#
+#  * use g for better semantic grouping
+#  * better transitions from http://mbostock.github.com/d3/talk/20111018/partition.html
+#  * approximation for text width
+
 margin = {top: 10, right: 10, bottom: 10, left: 10}
 line_height = 20
 
