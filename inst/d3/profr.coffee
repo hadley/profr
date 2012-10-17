@@ -73,11 +73,7 @@ click = (rec) ->
   d3.event.stopPropagation()
 
 svg.on("click", -> 
-  subset.x_min = 0
-  subset.x_max = Infinity
-  subset.y_min = 1
-
-  redraw()
+  click {start: 0, end: Infinity, level: 1}
 )
 
 redraw = ->
@@ -113,12 +109,11 @@ redraw = ->
     .attr("y", (d) -> y_scale(d.level + 0.75))
 
   text
-    .style("display", "block")
     .each((d) -> this.__width = this.getBBox().width)
-    .style("display", (d) ->
+    .style("opacity", (d) ->
       w = this.__width 
       return "none" if (w == 0)
-      if w + 8 < width(d) then "block" else "none"
+      if w + 8 < width(d) then 1 else 0
     )
 
 window.onresize = redraw

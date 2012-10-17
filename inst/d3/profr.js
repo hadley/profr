@@ -109,10 +109,11 @@
   };
 
   svg.on("click", function() {
-    subset.x_min = 0;
-    subset.x_max = Infinity;
-    subset.y_min = 1;
-    return redraw();
+    return click({
+      start: 0,
+      end: Infinity,
+      level: 1
+    });
   });
 
   redraw = function() {
@@ -146,18 +147,18 @@
     }).attr("y", function(d) {
       return y_scale(d.level + 0.75);
     });
-    return text.style("display", "block").each(function(d) {
+    return text.each(function(d) {
       return this.__width = this.getBBox().width;
-    }).style("display", function(d) {
+    }).style("opacity", function(d) {
       var w;
       w = this.__width;
       if (w === 0) {
         return "none";
       }
       if (w + 8 < width(d)) {
-        return "block";
+        return 1;
       } else {
-        return "none";
+        return 0;
       }
     });
   };
