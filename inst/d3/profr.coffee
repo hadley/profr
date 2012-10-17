@@ -5,7 +5,7 @@
 #  * approximation for text width
 
 margin = {top: 10, right: 10, bottom: 10, left: 10}
-line_height = 20
+line_height = 25
 
 svg = d3.select("body").selectAll(".chart").data([1])
 svg.enter().append("svg")
@@ -43,7 +43,7 @@ rescale = ->
     .domain([subset.x_min, d3.max(shown, (d) -> d.end)])
   y_scale = d3.scale.linear()
     .range([0, win_height])
-    .domain([subset.y_min - 1, d3.max(shown, (d) -> d.level)])
+    .domain([subset.y_min - 1, lines + subset.y_min])
     # -1 so there's enough room for the info bar
 
 mouse_over = (rec) ->

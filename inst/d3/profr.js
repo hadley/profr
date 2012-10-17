@@ -9,7 +9,7 @@
     left: 10
   };
 
-  line_height = 20;
+  line_height = 25;
 
   svg = d3.select("body").selectAll(".chart").data([1]);
 
@@ -60,11 +60,7 @@
         return d.end;
       })
     ]);
-    return y_scale = d3.scale.linear().range([0, win_height]).domain([
-      subset.y_min - 1, d3.max(shown, function(d) {
-        return d.level;
-      })
-    ]);
+    return y_scale = d3.scale.linear().range([0, win_height]).domain([subset.y_min - 1, lines + subset.y_min]);
   };
 
   mouse_over = function(rec) {
