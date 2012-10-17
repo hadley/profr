@@ -12,7 +12,7 @@ Version: 0.3
 Imports:
     digest,
     rjson,
-    rook
+    Rook
 Suggests:
     ggplot2,
     qtpaint,
