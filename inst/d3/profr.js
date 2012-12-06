@@ -30,7 +30,10 @@
   };
 
   width = function(d) {
-    return x_scale(d.end) - x_scale(d.start);
+    var left, right;
+    left = Math.max(0, x_scale(d.end));
+    right = Math.min(x_scale(d.start), subset.x_max);
+    return left - right;
   };
 
   id = function(d) {
@@ -38,29 +41,19 @@
   };
 
   rescale = function() {
-    var el, height, lines, win_height, win_width;
+    var height, lines, win_height, win_width;
     win_width = window.innerWidth - margin.left - margin.right;
     win_height = window.innerHeight - margin.top - margin.bottom;
     lines = win_height / line_height << 0;
     height = lines * line_height;
     svg.attr("width", win_width).attr("height", win_height);
-    shown = (function() {
-      var _i, _len, _results;
-      _results = [];
-      for (_i = 0, _len = data.length; _i < _len; _i++) {
-        el = data[_i];
-        if ((el.level - subset.x_min) < lines && el.start >= subset.x_min && el.end <= subset.x_max && el.level >= subset.y_min) {
-          _results.push(el);
-        }
-      }
-      return _results;
-    })();
-    x_scale = d3.scale.linear().range([0, win_width]).domain([
-      subset.x_min, d3.max(shown, function(d) {
+    if (subset.x_max === Infinity) {
+      subset.x_max = d3.max(data, function(d) {
         return d.end;
-      })
-    ]);
-    return y_scale = d3.scale.linear().range([0, win_height]).domain([subset.y_min - 1, lines + subset.y_min]);
+      });
+    }
+    x_scale = d3.scale.linear().rangeRound([0, win_width]).domain([subset.x_min, subset.x_max]);
+    return y_scale = d3.scale.linear().rangeRound([0, win_height]).domain([subset.y_min - 1, lines + subset.y_min]);
   };
 
   mouse_over = function(rec) {
@@ -117,36 +110,25 @@
   });
 
   redraw = function() {
-    var rect, text;
+    var g, text;
     rescale();
-    rect = svg.selectAll("rect").data(shown, id);
-    rect.enter().append("rect").on("mouseover", function(d) {
+    g = svg.selectAll("g").data(data, id).enter().append("g");
+    svg.selectAll("g").data(data, id).transition(750).attr("transform", function(d) {
+      return "translate(" + x_scale(d.start) + "," + y_scale(d.level) + ")";
+    });
+    g.append("rect").on("mouseover", function(d) {
       return mouse_over(d);
     }).on("mouseout", function(d) {
       return mouse_out(d);
     }).on("click", (function(d) {
       return click(d);
-    }), false);
-    rect.exit().remove();
-    rect.transition().attr("x", function(d) {
-      return x_scale(d.start);
-    }).attr("y", function(d) {
-      return y_scale(d.level);
-    }).attr("height", function(d) {
-      return y_scale(d.level + 1) - y_scale(d.level);
-    }).attr("width", function(d) {
-      return x_scale(d.end) - x_scale(d.start);
+    }), false).attr("height", function(d) {
+      return line_height + "px";
     });
-    text = svg.selectAll("text").data(shown, id);
-    text.enter().append("text").text(function(d) {
+    svg.selectAll("rect").data(data, id).transition(750).attr("width", width);
+    text = g.append("text").text(function(d) {
       return d.f;
-    });
-    text.exit().remove();
-    text.transition().attr("x", function(d) {
-      return x_scale(d.start) + 4;
-    }).attr("y", function(d) {
-      return y_scale(d.level + 0.75);
-    });
+    }).attr("y", "18px").attr("x", "5px");
     return text.each(function(d) {
       return this.__width = this.getBBox().width;
     }).style("opacity", function(d) {

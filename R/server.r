@@ -34,7 +34,7 @@ profr_server <- function(base = getOption("profr.path"), appname = "profr") {
   }
   base <- normalizePath(base)
 
-  server <<- Rhttpd$new()
+  server <- Rhttpd$new()
   server$add(make_router(base), appname)
 
   port <- tools:::httpdPort
@@ -43,6 +43,7 @@ profr_server <- function(base = getOption("profr.path"), appname = "profr") {
     server$start(quiet = TRUE)
   }
 
+  server <<- server
   invisible(server)
 }
 

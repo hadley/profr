@@ -3,6 +3,7 @@
 #  * use g for better semantic grouping
 #  * better transitions from http://mbostock.github.com/d3/talk/20111018/partition.html
 #  * approximation for text width
+#  * translate/scale entire viewport instead of individuals?
 
 margin = {top: 10, right: 10, bottom: 10, left: 10}
 line_height = 25
@@ -20,7 +21,10 @@ subset =
   x_max: Infinity
   y_min: 1
 
-width = (d) -> x_scale(d.end) - x_scale(d.start)
+width = (d) -> 
+  left = Math.max(0, x_scale(d.end))
+  right = Math.min(x_scale(d.start), subset.x_max)
+  left - right
 id = (d) -> [d.start, d.level]
 
 # Ensure svg fills entire window (with round number of lines),
@@ -36,13 +40,14 @@ rescale = ->
     .attr("width", win_width)
     .attr("height", win_height)
 
-  shown = (el for el in data when (el.level - subset.x_min) < lines and el.start >= subset.x_min and 
-    el.end <= subset.x_max and el.level >= subset.y_min)
+  if (subset.x_max == Infinity) 
+    subset.x_max = d3.max(data, (d) -> d.end)
+
   x_scale = d3.scale.linear()
-    .range([0, win_width])
-    .domain([subset.x_min, d3.max(shown, (d) -> d.end)])
+    .rangeRound([0, win_width])
+    .domain([subset.x_min, subset.x_max])
   y_scale = d3.scale.linear()
-    .range([0, win_height])
+    .rangeRound([0, win_height])
     .domain([subset.y_min - 1, lines + subset.y_min])
     # -1 so there's enough room for the info bar
 
@@ -80,33 +85,40 @@ redraw = ->
   rescale()
 
   # Draw box for each function
-  rect = svg.selectAll("rect").data(shown, id)
+  g = svg.selectAll("g").data(data, id).enter()
+    .append("g")
 
-  rect.enter().append("rect")
+  svg.selectAll("g").data(data, id)
+    .transition(750)
+    .attr("transform", (d) -> 
+      "translate(" + x_scale(d.start) + "," + y_scale(d.level) + ")")
+
+  g.append("rect")
     .on("mouseover", (d) -> mouse_over(d))
     .on("mouseout", (d) -> mouse_out(d))
     .on("click", ((d) -> click(d)), false)
+    .attr("height", (d) -> line_height + "px")
  
-  rect.exit().remove()
+  svg.selectAll("rect").data(data, id)
+    .transition(750)
+    .attr("width", width)
+ 
+  # rect.exit().remove()
 
-  rect
-    .transition()
-    .attr("x", (d) -> x_scale(d.start))
-    .attr("y", (d) -> y_scale(d.level))
-    .attr("height", (d) -> y_scale(d.level + 1) - y_scale(d.level))
-    .attr("width", (d) -> x_scale(d.end) - x_scale(d.start))
+  # rect
+  #   .transition()
 
   # Label functions, if space
-  text = svg.selectAll("text").data(shown, id)
+  # text = svg.selectAll("text").data(shown, id)
 
-  text.enter().append("text")
+  text = g.append("text")
     .text((d) -> d.f)
+    .attr("y", "18px")
+    .attr("x", "5px")
 
-  text.exit().remove()
+  # text.exit().remove()
 
-  text.transition()
-    .attr("x", (d) -> x_scale(d.start) + 4)
-    .attr("y", (d) -> y_scale(d.level + 0.75))
+  # text.transition()
 
   text
     .each((d) -> this.__width = this.getBBox().width)
