@@ -117,10 +117,11 @@ redraw = ->
   # text.exit().remove()
   # text.transition()
 
-  text
+  svg.selectAll("g").data(data, id).selectAll("text")
     .each((d) -> this.__width = this.getBBox().width)
-    .style("opacity", (d) ->
+    .style("opacity", (d, i) ->
       w = this.__width 
+      # if i == 1 then console.log(w + " / " + width(d))
       if w != 0 and w + 8 < width(d) then 1 else 0
     )
 

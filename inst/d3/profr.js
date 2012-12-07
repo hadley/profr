@@ -129,9 +129,9 @@
     text = g.append("text").text(function(d) {
       return d.f;
     }).attr("y", "18px").attr("x", "5px");
-    return text.each(function(d) {
+    return svg.selectAll("g").data(data, id).selectAll("text").each(function(d) {
       return this.__width = this.getBBox().width;
-    }).style("opacity", function(d) {
+    }).style("opacity", function(d, i) {
       var w;
       w = this.__width;
       if (w !== 0 && w + 8 < width(d)) {
