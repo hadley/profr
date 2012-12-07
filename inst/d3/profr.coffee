@@ -22,16 +22,17 @@ subset =
   y_min: 1
 
 width = (d) -> 
-  left = Math.max(0, x_scale(d.end))
-  right = Math.min(x_scale(d.start), subset.x_max)
+  left = x_scale(d.end)
+  right = x_scale(d.start)
   left - right
 id = (d) -> [d.start, d.level]
 
 # Ensure svg fills entire window (with round number of lines),
 # subset data and set up scales
 rescale = -> 
-  win_width = window.innerWidth - margin.left - margin.right
-  win_height = window.innerHeight - margin.top - margin.bottom
+  win_width = window.innerWidth - 5
+  win_height = window.innerHeight - 5
+  # -5 is fudge factor to eliminate scroll bars
 
   lines = win_height / line_height << 0 # round down
   height = lines * line_height
@@ -44,10 +45,10 @@ rescale = ->
     subset.x_max = d3.max(data, (d) -> d.end)
 
   x_scale = d3.scale.linear()
-    .rangeRound([0, win_width])
+    .rangeRound([margin.left, win_width - (margin.right + margin.left)])
     .domain([subset.x_min, subset.x_max])
   y_scale = d3.scale.linear()
-    .rangeRound([0, win_height])
+    .range([margin.bottom, win_height - (margin.top + margin.bottom)])
     .domain([subset.y_min - 1, lines + subset.y_min])
     # -1 so there's enough room for the info bar
 
@@ -97,7 +98,7 @@ redraw = ->
     .on("mouseover", (d) -> mouse_over(d))
     .on("mouseout", (d) -> mouse_out(d))
     .on("click", ((d) -> click(d)), false)
-    .attr("height", (d) -> line_height + "px")
+    .attr("height", (d) -> y_scale(d.level) - y_scale(d.level - 1) + "px")
  
   svg.selectAll("rect").data(data, id)
     .transition(750)
@@ -109,23 +110,18 @@ redraw = ->
   #   .transition()
 
   # Label functions, if space
-  # text = svg.selectAll("text").data(shown, id)
-
   text = g.append("text")
     .text((d) -> d.f)
     .attr("y", "18px")
     .attr("x", "5px")
-
   # text.exit().remove()
-
   # text.transition()
 
   text
     .each((d) -> this.__width = this.getBBox().width)
     .style("opacity", (d) ->
       w = this.__width 
-      return "none" if (w == 0)
-      if w + 8 < width(d) then 1 else 0
+      if w != 0 and w + 8 < width(d) then 1 else 0
     )
 
 window.onresize = redraw

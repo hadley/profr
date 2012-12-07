@@ -31,8 +31,8 @@
 
   width = function(d) {
     var left, right;
-    left = Math.max(0, x_scale(d.end));
-    right = Math.min(x_scale(d.start), subset.x_max);
+    left = x_scale(d.end);
+    right = x_scale(d.start);
     return left - right;
   };
 
@@ -42,8 +42,8 @@
 
   rescale = function() {
     var height, lines, win_height, win_width;
-    win_width = window.innerWidth - margin.left - margin.right;
-    win_height = window.innerHeight - margin.top - margin.bottom;
+    win_width = window.innerWidth - 5;
+    win_height = window.innerHeight - 5;
     lines = win_height / line_height << 0;
     height = lines * line_height;
     svg.attr("width", win_width).attr("height", win_height);
@@ -52,8 +52,8 @@
         return d.end;
       });
     }
-    x_scale = d3.scale.linear().rangeRound([0, win_width]).domain([subset.x_min, subset.x_max]);
-    return y_scale = d3.scale.linear().rangeRound([0, win_height]).domain([subset.y_min - 1, lines + subset.y_min]);
+    x_scale = d3.scale.linear().rangeRound([margin.left, win_width - (margin.right + margin.left)]).domain([subset.x_min, subset.x_max]);
+    return y_scale = d3.scale.linear().range([margin.bottom, win_height - (margin.top + margin.bottom)]).domain([subset.y_min - 1, lines + subset.y_min]);
   };
 
   mouse_over = function(rec) {
@@ -123,7 +123,7 @@
     }).on("click", (function(d) {
       return click(d);
     }), false).attr("height", function(d) {
-      return line_height + "px";
+      return y_scale(d.level) - y_scale(d.level - 1) + "px";
     });
     svg.selectAll("rect").data(data, id).transition(750).attr("width", width);
     text = g.append("text").text(function(d) {
@@ -134,10 +134,7 @@
     }).style("opacity", function(d) {
       var w;
       w = this.__width;
-      if (w === 0) {
-        return "none";
-      }
-      if (w + 8 < width(d)) {
+      if (w !== 0 && w + 8 < width(d)) {
         return 1;
       } else {
         return 0;
