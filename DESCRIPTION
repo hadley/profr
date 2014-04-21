@@ -17,11 +17,3 @@ Suggests:
     ggplot2,
     qtpaint,
     qtbase,
-Collate:
-    'explore.r'
-    'output.r'
-    'parse.r'
-    'profile.r'
-    'd3.r'
-    'server.r'
-    'zzz.r'
