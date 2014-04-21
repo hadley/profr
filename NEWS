@@ -1,3 +1,7 @@
+Version 0.3.1
+=============
+
+
 Version 0.3
 ===========
 
@@ -8,7 +12,7 @@ Version 0.3
 
 * Get `ggplot2.profr` working again.
 
-Changes in version 0.2 
+Changes in version 0.2
 ------------------------------------------------------------------------------
 
 * Updated documentation
