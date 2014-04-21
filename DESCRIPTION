@@ -17,3 +17,4 @@ Suggests:
     ggplot2,
     qtpaint,
     qtbase,
+Roxygen: list(wrap = FALSE)

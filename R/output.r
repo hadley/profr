@@ -10,8 +10,7 @@
 #' @param angle function label angle
 #' @keywords hplot
 #' @seealso \code{\link{ggplot.profr}}
-#' @method plot profr
-#' @S3method plot profr
+#' @export
 #' @examples
 #' plot(nesting_prof)
 #' plot(reshape_prof)
