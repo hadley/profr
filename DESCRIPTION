@@ -14,7 +14,4 @@ Description: profr provides an alternative data structure
 Version: 0.3.1
 Suggests:
     ggplot2
-Collate:
-    'output.r'
-    'parse.r'
-    'profile.r'
+Roxygen: list(wrap = FALSE)
