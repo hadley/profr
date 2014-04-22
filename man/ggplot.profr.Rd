@@ -20,7 +20,7 @@ This will plot the call tree of the specified stop watch object.
 If you only want a small part, you will need to subset the object
 }
 \examples{
-if (require("ggplot2", quiet = TRUE)) {
+if (require("ggplot2")) {
   ggplot(nesting_prof)
   ggplot(reshape_prof)
 }

@@ -36,12 +36,12 @@ plot.profr <- function(x, ..., minlabel = 0.1, angle = 0) {
 #' @keywords hplot
 #' @export ggplot.profr
 #' @examples
-#' if (require("ggplot2", quiet = TRUE)) {
+#' if (require("ggplot2")) {
 #'   ggplot(nesting_prof)
 #'   ggplot(reshape_prof)
 #' }
 ggplot.profr <- function(data, ..., minlabel = 0.1, angle=0) {
-  if (!require("ggplot2", quiet=TRUE))
+  if (!require("ggplot2", quietly = TRUE))
     stop("Please install ggplot2 to use this plotting method")
   data$range <- diff(range(data$time))
 
@@ -54,3 +54,5 @@ ggplot.profr <- function(data, ..., minlabel = 0.1, angle=0) {
     scale_y_continuous("time") +
     scale_x_continuous("level")
 }
+
+globalVariables(c("f", "level", "leaf"))

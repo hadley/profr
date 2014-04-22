@@ -24,7 +24,6 @@ nesting <- parse_rprof(nesting_ex)
 
 reshape_ex <- system.file("samples", "reshape.rprof", package="profr")
 diamonds <- parse_rprof(reshape_ex)
-p <- profr(parse_rprof(reshape_ex))
 }
 \seealso{
 \code{\link{profr}} for profiling and parsing
