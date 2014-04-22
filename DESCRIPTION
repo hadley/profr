@@ -1,5 +1,5 @@
 Package: profr
-Version: 0.3.1
+Version: 0.3.1.99
 Title: An alternative display for profiling information
 Description: profr provides an alternative data structure
     and visual rendering for the profiling information
