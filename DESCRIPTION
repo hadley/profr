@@ -3,7 +3,7 @@ Imports:
     stringr,
     plyr
 Maintainer: Hadley Wickham <h.wickham@gmail.com>
-License: MIT
+License: MIT + file LICENSE
 Title: An alternative display for profiling information
 LazyData: true
 Type: Package
