@@ -45,14 +45,16 @@ ggplot.profr <- function(data, ..., minlabel = 0.1, angle=0) {
     stop("Please install ggplot2 to use this plotting method")
   data$range <- diff(range(data$time))
 
-  ggplot(as.data.frame(data)) +
-    geom_rect(aes(xmin = start, xmax = end, ymin = level - 0.5, ymax = level + 0.5),
+  ggplot2::ggplot(as.data.frame(data)) +
+    ggplot2::geom_rect(
+      ggplot2::aes(xmin = start, xmax = end, ymin = level - 0.5, ymax = level + 0.5),
       fill = "grey95", colour = "black", size = 0.5) +
-    geom_text(aes(start + range / 60, level, label = f),
+    ggplot2::geom_text(
+      ggplot2::aes(start + range / 60, level, label = f),
       data = subset(data, time > max(time) * minlabel),
       size = 4, angle = angle, hjust = 0) +
-    scale_y_continuous("time") +
-    scale_x_continuous("level")
+    ggplot2::scale_y_continuous("time") +
+    ggplot2::scale_x_continuous("level")
 }
 
 globalVariables(c("f", "level", "leaf"))
