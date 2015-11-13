@@ -46,7 +46,10 @@ profr <- function(expr, interval = 0.02, quiet = TRUE) {
   }
 
   Rprof(tmp, append=TRUE, interval = interval)
-  try(force(expr))
+  tryCatch(force(expr),
+    error = function(e) NULL,
+    interrupt = function(e) NULL
+  )
   Rprof(NULL)
 
   n <- 6 + sys.nframe()

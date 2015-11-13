@@ -3,6 +3,8 @@ Version 0.3.2
 
 * Fixes for outstanding R CMD check notes
 
+* `profr` now works when an interrupt is received in running the code.
+
 Version 0.3.1
 =============
 

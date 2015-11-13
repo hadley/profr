@@ -38,6 +38,22 @@ group_id <- function(x, y) {
 
 
 .simplify <- function(calls) {
+  # Special handling for empty data
+  if (length(calls) == 0) {
+    return(data.frame(stringsAsFactors = FALSE,
+      level = numeric(0),
+      g_id = integer(0),
+      t_id = integer(0),
+      f = character(0),
+      start = numeric(0),
+      end = numeric(0),
+      n = integer(0),
+      leaf = logical(0),
+      time = numeric(0),
+      source = character(0)
+    ))
+  }
+
   df <- ldply(seq_along(calls), function(i) {
     call <- calls[[i]]
     call_info(call, i - 1)
