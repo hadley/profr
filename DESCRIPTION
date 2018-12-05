@@ -14,3 +14,4 @@ Suggests:
     ggplot2
 License: MIT + file LICENSE
 LazyData: true
+RoxygenNote: 6.1.1
