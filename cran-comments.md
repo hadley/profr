@@ -1,10 +1,8 @@
 ## Test environments
-* local OS X install, R 3.1.2
-* ubuntu 12.04 (on travis-ci), R 3.1.2
-* win-builder (devel and release)
+* local OS X install, R 3.5.1
 
 ## R CMD check results
 There were no ERRORs, WARNINGs or NOTEs.
 
-## Downstream dependencies
-There are no downstream dependencies.
+## Reverse dependencies
+I did not recheck the reverse depedencies as the only changes I made were to fix the outstanding R CMD check NOTEs.

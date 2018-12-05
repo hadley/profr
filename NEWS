@@ -1,3 +1,8 @@
+Version 0.3.3
+==============
+
+* Fixes for outstanding R CMD check notes
+
 Version 0.3.2
 ==============
 
