@@ -45,12 +45,12 @@ profr <- function(expr, interval = 0.02, quiet = TRUE) {
     on.exit(close(tc), add=TRUE)
   }
 
-  Rprof(tmp, append=TRUE, interval = interval)
+  utils::Rprof(tmp, append=TRUE, interval = interval)
   tryCatch(force(expr),
     error = function(e) NULL,
     interrupt = function(e) NULL
   )
-  Rprof(NULL)
+  utils::Rprof(NULL)
 
   n <- 6 + sys.nframe()
   parsed <- parse_rprof(tmp, interval)

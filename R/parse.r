@@ -60,6 +60,11 @@ group_id <- function(x, y) {
   })
   df$hist <- id(list(df$hist))
 
+  # Quiet R CMD check note
+  start <- NULL
+  end <- NULL
+  hist <- NULL
+
   # A group consists of all calls with the same history, in a
   # consecutive block of time
   levels <- ddply(df, "level", function(df) {
