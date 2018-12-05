@@ -41,7 +41,7 @@ plot.profr <- function(x, ..., minlabel = 0.1, angle = 0) {
 #'   ggplot(reshape_prof)
 #' }
 ggplot.profr <- function(data, ..., minlabel = 0.1, angle=0) {
-  if (!require("ggplot2", quietly = TRUE))
+  if (!requireNamespace("ggplot2", quietly = TRUE))
     stop("Please install ggplot2 to use this plotting method")
   data$range <- diff(range(data$time))
 
