@@ -1,5 +1,6 @@
 ## Test environments
 * local OS X install, R 3.5.1
+* win-builder, R-devel.
 
 ## R CMD check results
 There were no ERRORs, WARNINGs or NOTEs.
