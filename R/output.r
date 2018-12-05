@@ -37,7 +37,12 @@ plot.profr <- function(x, ..., minlabel = 0.1, angle = 0) {
 #' @param angle function label angle
 #' @seealso \code{\link{plot.profr}}
 #' @keywords hplot
-#' @export ggplot.profr
+#' @rawNamespace
+#' if (getRversion() >= "3.6.0") {
+#'   S3method(ggplot2::ggplot, "profr", ggplot.profr)
+#' } else {
+#'   export(ggplot.profr)
+#' }
 #' @examples
 #' if (require("ggplot2")) {
 #'   ggplot(nesting_prof)
