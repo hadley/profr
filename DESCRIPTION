@@ -1,6 +1,6 @@
 Package: profr
 Title: An Alternative Display for Profiling Information
-Version: 0.3.3
+Version: 0.3.3.9000
 Authors@R: 
     person(given = "Hadley",
            family = "Wickham",
